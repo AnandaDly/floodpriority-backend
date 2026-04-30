@@ -23,7 +23,7 @@ try:
 except Exception as e:
     print(f"Error memuat model: {e}")
 
-LOG_FILE = "log_cuaca_medan.csv"
+LOG_FILE = "/tmp/log_cuaca_medan.csv"
 
 def init_log():
     
