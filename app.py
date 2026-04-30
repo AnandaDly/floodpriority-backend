@@ -113,17 +113,21 @@ def proses_ai(data_dict):
 
 @app.post("/predict")
 def prediksi_banjir(cuaca: DataCuaca):
-    hasil_peta = proses_ai(cuaca.model_dump())
-    return {"status": "success", "data_peta": hasil_peta}
+    try:
+        hasil_peta = proses_ai(cuaca.model_dump())
+        return {"status": "success", "data_peta": hasil_peta}
+    except Exception as e:
+        return {"status": "error", "message": f"Crash di AI: {str(e)}"}
 
 @app.get("/auto-predict")
 def auto_prediksi_banjir():
-    data_lengkap = proses_pipeline_data()
-    
-    hasil_peta = proses_ai(data_lengkap)
-    
-    return {
-        "status": "success",
-        "data_cuaca_otomatis": data_lengkap, 
-        "data_peta": hasil_peta
-    }
+    try:
+        data_lengkap = proses_pipeline_data()
+        hasil_peta = proses_ai(data_lengkap)
+        return {
+            "status": "success",
+            "data_cuaca_otomatis": data_lengkap, 
+            "data_peta": hasil_peta
+        }
+    except Exception as e:
+        return {"status": "error", "message": f"Crash di Pipeline: {str(e)}"}
